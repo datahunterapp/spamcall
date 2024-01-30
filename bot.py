@@ -1,5 +1,7 @@
 import telebot
 import requests
+from keep_alive import keep_alive
+keep_alive()
 
 bot = telebot.TeleBot('6103551301:AAFWQCycnoSZ2JCIZmS2JtNGfhQP05bg2Jw')
 

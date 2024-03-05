@@ -14,12 +14,12 @@ def make_call(phone_number,message):
     }
     try:
         response = requests.post(url, json=payload)
-        if response.status_code == 200:
+        if response.json()['message'] == 'sent':
             print(f"Call made to {phone_number} successfully!")
             bot.reply_to(message, f"Calls sent successfully to {phone_number}")
         else:
             print(f"Failed to make call to {phone_number}. Status code: {response.status_code}")
-            bot.reply_to(message, f"Failed to make call to {phone_number}. Status code: {response.status_code}")
+            bot.reply_to(message, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
     except requests.exceptions.RequestException as e:
         print(f"Error occurred while making call to {phone_number}: {e}")
         bot.reply_to(message, f"Error occurred while making call to {phone_number}: {e}")

@@ -16,13 +16,13 @@ def make_call(phone_number,message):
         response = requests.post(url, json=payload)
         if response.json()['message'] == 'Sent':
             print(f"Call made to {phone_number} successfully!")
-            bot.send_message(-4149540977, f"Calls sent successfully to {phone_number}")
+            bot.send_message(-1002041695132, f"Calls sent successfully to {phone_number}")
         else:
             print(f"Failed to make call to {phone_number}. Status code: {response.status_code}")
-            bot.send_message(-4149540977, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
+            bot.send_message(-1002041695132, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
     except requests.exceptions.RequestException as e:
         print(f"Error occurred while making call to {phone_number}: {e}")
-        bot.send_message(-4149540977, f"Error occurred while making call to {phone_number}: {e}")
+        bot.send_message(-1002041695132, f"Error occurred while making call to {phone_number}: {e}")
 
 def make_calls(phone_numbers,message):
     global running

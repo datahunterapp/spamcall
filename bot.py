@@ -46,7 +46,7 @@ def send_messages(message):
 @bot.message_handler(commands=['start'])
 def send_messages(message):
 
-    bot.send_message(4149540977, "/send دوس هنا عشان تبعت المكالمات ")
+    bot.send_message(-4149540977, "/send دوس هنا عشان تبعت المكالمات ")
 
 @bot.message_handler(commands=['stop'])
 def stop_messages(message):

@@ -30,6 +30,7 @@ def make_calls(phone_numbers,message):
         if not running:
             break  
         make_call(number,message)
+        time.sleep(1)
         
 
 # Handle "/send" command from Telegram

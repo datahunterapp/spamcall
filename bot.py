@@ -64,6 +64,8 @@ def spam_call(message):
     phone_numbers_list = phone_numbers_string.strip().split('\n')
     chat_id =-1002041695132
     for phone_number in phone_numbers_list:
+        if not running:
+            break  
         try:
             response2 = requests.get(
                 f'https://spamwhats.vercel.app/send_spam?number={phone_number}')

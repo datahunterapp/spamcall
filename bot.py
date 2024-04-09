@@ -49,7 +49,8 @@ def make_calls(phone_numbers,message):
 # Handle "/send" command from Telegram
 @bot.message_handler(commands=['send'])
 def send_messages(message):
-
+    phone_numbers_string = fetch_phone_numbers()
+    phone_numbers_list = phone_numbers_string.strip().split('\n')
     # Example list of phone numbers
     bot.reply_to(message, "Sending......")
     global running

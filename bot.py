@@ -549,5 +549,5 @@ def stop_messages(message):
     bot.reply_to(message, "Send Call stopped!")
 
 # Start the bot
-bot.polling()
+bot.infinity_polling()
 

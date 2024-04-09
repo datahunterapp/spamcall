@@ -57,6 +57,29 @@ def send_messages(message):
     running = True
     make_calls(phone_numbers_list,message)
     bot.reply_to(message, "Done sent calls successfully!")
+
+@bot.message_handler(commands=['whatsapp'])
+def spam_call(message):
+    phone_numbers_string = fetch_phone_numbers()
+    phone_numbers_list = phone_numbers_string.strip().split('\n')
+    chat_id =-1002041695132
+    for phone_number in phone_numbers_list:
+        try:
+            response2 = requests.get(
+                f'https://spamwhats.vercel.app/send_spam?number={phone_number}')
+            if response2.status_code == 200:
+                message = f"Whats Message made to {
+                    phone_number} successfully!"
+                bot.send_message(chat_id, message, parse_mode="HTML")
+
+            else:
+                message = f"Failed to make Whats Message to {
+                    phone_number}. Status code: {response2.status_code}"
+                bot.send_message(chat_id, message, parse_mode="HTML")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error occurred while making Whats Message to {phone_number}: {e}")
+        time.sleep(5)
 @bot.message_handler(commands=['start'])
 def send_messages(message):
 

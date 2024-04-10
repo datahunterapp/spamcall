@@ -62,8 +62,10 @@ def send_messages(message):
 def spam_call(message):
     phone_numbers_string = fetch_phone_numbers()
     phone_numbers_list = phone_numbers_string.strip().split('\n')
+    global running
     running = True
     chat_id =-1002041695132
+    global running
     for phone_number in phone_numbers_list:
         if not running:
             break  

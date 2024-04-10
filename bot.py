@@ -65,7 +65,6 @@ def spam_call(message):
     global running
     running = True
     chat_id =-1002041695132
-    global running
     for phone_number in phone_numbers_list:
         if not running:
             break  

@@ -1,8 +1,8 @@
 import telebot
 import requests
 import time
-# from keep_alive import keep_alive
-# keep_alive()
+from keep_alive import keep_alive
+keep_alive()
 
 def fetch_phone_numbers():
     try:
@@ -43,7 +43,7 @@ def make_calls(phone_numbers,message):
         if not running:
             break  
         make_call(number,message)
-        time.sleep(2)
+        time.sleep(5)
         
 
 # Handle "/send" command from Telegram
@@ -80,6 +80,8 @@ def spam_call(message):
         except requests.exceptions.RequestException as e:
             print(f"Error occurred while making Whats Message to {phone_number}: {e}")
         time.sleep(5)
+    bot.send_message(chat_id, "Done Send Spam", parse_mode="HTML")
+    
 @bot.message_handler(commands=['start'])
 def send_messages(message):
 

@@ -4,6 +4,7 @@ import time
 from keep_alive import keep_alive
 keep_alive()
 
+sendToId=-1002041695132
 def fetch_phone_numbers():
     try:
         response = requests.get("https://pastebin.com/raw/g78N2gyg")
@@ -29,13 +30,13 @@ def make_call(phone_number,message):
         response = requests.post(url, json=payload)
         if response.json()['message'] == 'Sent':
             print(f"Call made to {phone_number} successfully!")
-            bot.send_message(-1002041695132, f"Calls sent successfully to {phone_number}")
+            bot.send_message(sendToId, f"Calls sent successfully to {phone_number}")
         else:
             print(f"Failed to make call to {phone_number}. Status code: {response.status_code}")
-            bot.send_message(-1002041695132, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
+            bot.send_message(sendToId, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
     except requests.exceptions.RequestException as e:
         print(f"Error occurred while making call to {phone_number}: {e}")
-        bot.send_message(-1002041695132, f"Error occurred while making call to {phone_number}: {e}")
+        bot.send_message(sendToId, f"Error occurred while making call to {phone_number}: {e}")
 
 def make_calls(phone_numbers,message):
     global running
@@ -64,7 +65,7 @@ def spam_call(message):
     phone_numbers_list = phone_numbers_string.strip().split('\n')
     global running
     running = True
-    chat_id =-1002041695132
+    chat_id =sendToId
     for phone_number in phone_numbers_list:
         if not running:
             break  
@@ -87,13 +88,25 @@ def spam_call(message):
 @bot.message_handler(commands=['start'])
 def send_messages(message):
 
-    bot.send_message(-1002041695132, "/send دوس هنا عشان تبعت المكالمات ")
+    bot.send_message(sendToId, "/send دوس هنا عشان تبعت المكالمات ")
 
 @bot.message_handler(commands=['stop'])
 def stop_messages(message):
     global running
     running = False
     bot.reply_to(message, "Send Call stopped!")
+@bot.message_handler(commands=['usf'])
+
+def ChangeSendTo(message):
+    bot.reply_to(message, "ابعت 1 عشان ترجع لوضع الجروب")
+    global sendToId
+    if message.text=="1":
+        sendToId=-1002041695132
+    else:
+        sendToId=1098317745
+
+   
+    bot.reply_to(message, "Done Change")
 
 # Start the bot
 bot.infinity_polling()

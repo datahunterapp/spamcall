@@ -99,14 +99,19 @@ def stop_messages(message):
 
 def ChangeSendTo(message):
     bot.reply_to(message, "ابعت 1 عشان ترجع لوضع الجروب")
+    bot.register_next_step_handler(message, handelSwitch)
+    
+
+   
+def handelSwitch(message):
     global sendToId
     if message.text=="1":
         sendToId=-1002041695132
+        bot.reply_to(message, "Groub Now")
     else:
         sendToId=1098317745
+        bot.reply_to(message, "@usfnassr Now")
 
-   
-    bot.reply_to(message, "Done Change")
 
 # Start the bot
 bot.infinity_polling()

@@ -22,6 +22,7 @@ phone_numbers_list = phone_numbers_string.strip().split('\n')
 bot = telebot.TeleBot("6891639487:AAHXiGM2tumJSwuYe0ydtSYQkypPE4ZnEeY")
 running = True
 def make_call(phone_number,message):
+    global sendToId
     url = "https://sms-call.vercel.app/api/call"
     payload = {
         "phone": phone_number
@@ -63,6 +64,7 @@ def send_messages(message):
 def spam_call(message):
     phone_numbers_string = fetch_phone_numbers()
     phone_numbers_list = phone_numbers_string.strip().split('\n')
+    global sendToId
     global running
     running = True
     chat_id =sendToId
@@ -87,7 +89,7 @@ def spam_call(message):
     
 @bot.message_handler(commands=['start'])
 def send_messages(message):
-
+    global sendToId
     bot.send_message(sendToId, "/send دوس هنا عشان تبعت المكالمات ")
 
 @bot.message_handler(commands=['stop'])

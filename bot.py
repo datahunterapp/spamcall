@@ -19,9 +19,9 @@ phone_numbers_list = phone_numbers_string.strip().split('\n')
 
 
 # Initialize your Telegram bot with the token you obtained from BotFather
-bot = telebot.TeleBot("6891639487:AAHXiGM2tumJSwuYe0ydtSYQkypPE4ZnEeY")
+bot = telebot.TeleBot("6140919858:AAF3Gv5ttqJjxdti8JbizezZ3rMNb1A0EGw")
 running = True
-def make_call(phone_number,message):
+def make_call(phone_number,message,msg):
     global sendToId
     url = "https://sms-call.vercel.app/api/call"
     payload = {
@@ -31,20 +31,26 @@ def make_call(phone_number,message):
         response = requests.post(url, json=payload)
         if response.json()['message'] == 'Sent':
             print(f"Call made to {phone_number} successfully!")
-            bot.send_message(sendToId, f"Calls sent successfully to {phone_number}")
+            # bot.send_message(sendToId, f"Calls sent successfully to {phone_number}")
+            bot.edit_message_text(chat_id=msg.chat.id, message_id=msg.message_id, text= f"Calls sent successfully to {phone_number}")
+
         else:
             print(f"Failed to make call to {phone_number}. Status code: {response.status_code}")
-            bot.send_message(sendToId, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
+            # bot.send_message(sendToId, f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
+            bot.edit_message_text(chat_id=msg.chat.id, message_id=msg.message_id, text= f"Failed to make call to {phone_number}. error is: {response.json()['message']}")
+
     except requests.exceptions.RequestException as e:
         print(f"Error occurred while making call to {phone_number}: {e}")
-        bot.send_message(sendToId, f"Error occurred while making call to {phone_number}: {e}")
+        # bot.send_message(sendToId, f"Error occurred while making call to {phone_number}: {e}")
+        bot.edit_message_text(chat_id=msg.chat.id, message_id=msg.message_id, text= f"Error occurred while making call to {phone_number}: {e}")
 
-def make_calls(phone_numbers,message):
+
+def make_calls(phone_numbers,message,msg):
     global running
     for number in phone_numbers:
         if not running:
             break  
-        make_call(number,message)
+        make_call(number,message,msg)
         time.sleep(5)
         
 
@@ -54,10 +60,10 @@ def send_messages(message):
     phone_numbers_string = fetch_phone_numbers()
     phone_numbers_list = phone_numbers_string.strip().split('\n')
     # Example list of phone numbers
-    bot.reply_to(message, "Sending......")
+    msg=bot.reply_to(message, "Sending......")
     global running
     running = True
-    make_calls(phone_numbers_list,message)
+    make_calls(phone_numbers_list,message,msg)
     bot.reply_to(message, "Done sent calls successfully!")
 
 @bot.message_handler(commands=['whatsapp'])

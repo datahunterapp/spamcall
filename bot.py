@@ -63,7 +63,9 @@ def send_messages(message):
     msg=bot.reply_to(message, "Sending......")
     global running
     running = True
+    bot.pin_chat_message(chat_id=msg.chat.id, message_id=msg.message_id)
     make_calls(phone_numbers_list,message,msg)
+    bot.unpin_chat_message(msg.chat.id, message_id=msg.message_id)
     bot.reply_to(message, "Done sent calls successfully!")
 
 @bot.message_handler(commands=['whatsapp'])
